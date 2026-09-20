@@ -9,10 +9,9 @@ After extracting the ZIP, the directory structure is:
 ```text
 whisper_embedding/
 ├── <journey_id>.npy
-└── window_embeddings/
-    ├── <journey_id>_windows.npy
-    ├── <journey_id>_durations.npy
-    └── ...
+└── whisper_embedding_metadata.csv
+└── whisper_embedding_eval.py
+
 ```
 
 ### Files Included
@@ -22,10 +21,6 @@ whisper_embedding/
 | `whisper_embedding_metadata.csv`                                 | Metadata mapping each asset (`journey_id`) to its tier label and corresponding embedding paths.   |
 | `whisper_embedding_eval.py`                                      | Evaluation code used to load the embeddings and reproduce the reported Whisper-based experiments. |
 | `whisper_embedding/<journey_id>.npy`                             | Pre-computed asset-level Whisper representation with shape `(1280,)`.                             |
-| `whisper_embedding/window_embeddings/<journey_id>_windows.npy`   | Window-level Whisper representations with shape `(N, 1280)`.                                      |
-| `whisper_embedding/window_embeddings/<journey_id>_durations.npy` | Original duration, in seconds, of each corresponding window with shape `(N,)`.                    |
-
-Here, `N` is the number of 30-second windows for an asset.
 
 ### Asset-Level Embeddings
 
@@ -41,29 +36,6 @@ where `eᵢ` is the embedding for window `i` and `dᵢ` is the original duration
 
 The resulting representation has 1280 dimensions.
 
-### Window-Level Embeddings
-
-The `window_embeddings/` directory contains the underlying representations used for the temporal pooling experiments.
-
-For each asset:
-
-```text
-<journey_id>_windows.npy
-    shape: (N, 1280)
-
-<journey_id>_durations.npy
-    shape: (N,)
-```
-
-The files are aligned by index. For example:
-
-```text
-_windows.npy                 _durations.npy
-
-row 0 → window 0 embedding   index 0 → window 0 duration
-row 1 → window 1 embedding   index 1 → window 1 duration
-row 2 → window 2 embedding   index 2 → window 2 duration
-```
 
 ### Whisper Windowing
 
