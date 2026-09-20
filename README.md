@@ -1,4 +1,4 @@
-# content-auto-tiering
+# Content Auto Tier
 
 ## Whisper Embedding Dataset
 
