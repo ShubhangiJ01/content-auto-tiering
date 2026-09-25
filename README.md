@@ -1,34 +1,5 @@
 # Content Auto Tier
 
-This repository contains the datasets and evaluation artifacts for content complexity classification of long-form audiovisual assets. The project investigates both pretrained speech representations derived from Whisper-large-v3 and task-specific acoustic, linguistic, speaker, and visual features for three-tier content complexity classification. Each asset is assigned tier 1 (easier), tier 2 (intermediate), or tier 3 (harder) according to how difficult it is to caption.
-
-## Datasets
-
-All files are in the `dataset` folder.
-
-| File | Contents |
-| --- | --- |
-| [`whisper_embedding.zip`](#whisper-embedding-dataset) | Pre-computed Whisper-large-v3 representations and the files required to reproduce the embedding-based evaluation experiments |
-| [`content_auto_tiering_transformed_features.zip`](#transformed-feature-dataset) | Task-specific features at chunk and asset level, frozen train/validation splits, and the final 1,197-asset model matrix |
-| [`edit_content_tier_data.csv`](#caption-edit-dataset) | Counts of human edits to machine-generated captions, by edit type, for 2,587 assets |
-| [`edit_tag_metrics.xlsx`](#edit-tag-detection-metrics) | Precision and recall of automatic edit-tag detection for each of 15 edit tags |
-| [`file_level_metrics.xlsx`](#edit-tag-detection-metrics) | The same detection metrics for each of 36 caption files, overall and per edit tag |
-| [`Labellers_comments_Factors.xlsx`](#labeller-comments-and-difficulty-factors) | 100 sampled labeller comments, each tagged with difficulty factors |
-
-### Labels and Identifiers
-
-* Assets are identified by `journey_id` (`Journey_Id` in `edit_content_tier_data.csv`), which joins the feature tables and edit data. The detection-metric workbooks and labeller comments identify assets by file name, show, or PAID asset identifier instead.
-* `Tier` in the edit data and `bq_tier` hold the tier recorded for each asset in the content database. The legacy cohort's `Asset Tier` agrees with the edit-data `Tier` for every shared asset.
-* The PAID cohort uses `assigned_tier`, a manually reviewed tier; its `Asset Tier` column duplicates it. In `exact_nonpaid_1197/cohort_manifest.csv`, `assigned_tier` has a different meaning: the tier assigned from the asset's caption-edit profile.
-
-Assets shared between datasets:
-
-| Cohort | Assets | Also in edit data |
-| --- | ---: | ---: |
-| Final 1,197-asset matrix | 1,197 | 1,180 |
-| Legacy | 467 | 314 |
-| PAID | 379 | 125 |
-
 ## Whisper Embedding Dataset
 
 The released ZIP (whisper_embedding.zip) inside dataset folder contains the pre-computed Whisper-large-v3 representations and the files required to reproduce the embedding-based evaluation experiments reported in the paper.
