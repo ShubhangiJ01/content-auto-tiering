@@ -288,17 +288,49 @@ Edit-count columns, with the name each tag has in the [detection-metric workbook
 
 Columns that do not apply to a workflow's caption format are blank. `Alignment_Change`, `Line_Shift`, `Position_Shift`, `Size_Change`, and `VTT_Style` are filled only for `closed_captioning`; `Region_Change` and `Spanwise_Style_Change` only for `closed_captioning_v2` and `emt_dialog`; and `Closed_Caption` is blank for `emt_dialog`.
 
-## Edit-Tag Detection Metrics
+## Edits Detection Metrics
 
-These workbooks report how accurately the automatic edit-tag detection identifies each edit type, evaluated on 36 caption files. Every row has `True Positives`, `False Positives`, `False Negatives`, `Precision`, and `Recall`.
+`edit_tag_metrics.csv` and `file_level_metrics.csv` report how accurately the automatic edit-tag detection identifies each edit type, evaluated on the same 36 caption files against a human-verified reference.
 
-| File | Sheet | Rows |
+### `edit_tag_metrics.csv`
+
+One row per edit tag (15 rows × 6 columns), with counts summed over all 36 files.
+
+**Insights**
+
+* Across all tags the detector records 33,594 true positives, 512 false positives, and 201 false negatives — overall precision 0.985 and recall 0.994, with no tag below 0.95 precision or 0.98 recall.
+* Detection volume is dominated by timing and segmentation edits (Timecode Drift 5,820, Line Wrapping 4,636, Block Split 4,223, Caption Styling 4,097, Block Split & Merge 3,989 — roughly 68% of all true positives), while the weakest tags are Block Split on precision (0.95, 218 false positives) and Block Merge and Word Correction on recall (0.98).
+
+**Columns**
+
+| Column | Type | Description |
 | --- | --- | --- |
-| `edit_tag_metrics.xlsx` | `Edit Tag Metrics` | One per edit tag (15), summed over all files |
-| `file_level_metrics.xlsx` | `File Metrics` | One per file (36), summed over all tags, plus a `TOTAL` row |
-| `file_level_metrics.xlsx` | `File by Edit Tag` | One per file and edit tag (473), plus a `TOTAL` row |
+| `Edit Tag` | string | Edit type being scored, using the detection-metric names listed in the [Caption Edit Dataset](#caption-edit-dataset) table (for example `Word Correction`, `Block Split`) |
+| `True Positives` | integer | Edits of that type detected automatically and confirmed by the human reference |
+| `False Positives` | integer | Edits of that type detected automatically with no human-reference counterpart |
+| `False Negatives` | integer | Edits of that type in the human reference that the detector missed |
+| `Precision` | float (2 dp) | `TP / (TP + FP)` |
+| `Recall` | float (2 dp) | `TP / (TP + FN)` |
 
-Across all files and tags there are 33,594 true positives, 512 false positives, and 201 false negatives: precision 0.985 and recall 0.994. Per-tag precision ranges from 0.951 (Block Split) to 1.000, and recall from 0.977 (Block Merge) to 1.000. Files are identified by asset file name (for example `259180_002_PMF_4419762`), not by `journey_id`.
+### `file_level_metrics.csv`
+
+One row per caption file (36 rows) plus a `TOTAL` summary row, 37 rows × 6 columns, with counts summed over all edit tags.
+
+**Insights**
+
+* The `TOTAL` row matches the per-tag file exactly (33,594 true positives, 512 false positives, 201 false negatives; precision 0.9850, recall 0.9941) and must be dropped before aggregating.
+* Accuracy is high and stable across the 36 files — 29 reach precision ≥ 0.98 and 35 reach recall ≥ 0.98 — even though detection volume ranges from 200 to 1,936 true positives per file; the outliers are `284385_014_PMF_4392550` (lowest precision, 0.9050) and `272300_009_PMF_4458216` (lowest recall, 0.9643).
+
+**Columns**
+
+| Column | Type | Description |
+| --- | --- | --- |
+| `File` | string | Asset file name, for example `259180_002_PMF_4419762`; the literal value `TOTAL` marks the summary row and must be dropped before aggregating |
+| `True Positives` | integer | Edits detected automatically and confirmed by the human reference, summed over all edit tags in that file |
+| `False Positives` | integer | Edits detected automatically in that file with no human-reference counterpart |
+| `False Negatives` | integer | Edits in the human reference for that file that the detector missed |
+| `Precision` | float (4 dp) | `TP / (TP + FP)` for that file |
+| `Recall` | float (4 dp) | `TP / (TP + FN)` for that file |
 
 ## Labeller Comments and Difficulty Factors
 
