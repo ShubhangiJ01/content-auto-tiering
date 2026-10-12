@@ -1,0 +1,16 @@
+Edit Tag,True Positives,False Positives,False Negatives,Precision,Recall
+Block Alignment,31,0,0,1.00,1.00
+Timecode Drift,5820,12,0,1.00,1.00
+Closed Captioning,1995,0,22,1.00,0.99
+Extra Block ,236,0,0,1.00,1.00
+Line Wrapping,4636,96,49,0.98,0.99
+Block Horizontal Positioning Shift,193,0,0,1.00,1.00
+Block Merge,1424,1,33,1.00,0.98
+Missed Block,293,0,1,1.00,1.00
+Block Vertical Positioning Shift,31,0,0,1.00,1.00
+Punctuation Correction,2490,54,14,0.98,0.99
+Speaker Change,1322,59,0,0.96,1.00
+Block Split,4223,218,14,0.95,1.00
+Block Split & Merge,3989,24,13,0.99,1.00
+Caption Styling,4097,0,1,1.00,1.00
+Word Correction,2814,48,54,0.98,0.98
